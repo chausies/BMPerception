@@ -7,35 +7,70 @@
 
 	<br>
 
-	{{#if part0}}
-		<p>
-			Welcome! You will be given a series of 96 tasks (part 1), a quick
-			survey (part 2), and then another series of 96 tasks (part 3). The
-			whole process should take only about 25 minutes.
-		</p>
+	{{#if get_data}}
+		<h2>CSV DATA</h2>
+		<pre>{{survey_data}}</pre>
+	{{else}}
+		{{#if part0}}
+			<p>
+				Welcome! You will be given a series of 96 tasks (part 1), a quick
+				survey (part 2), and then another series of 96 tasks (part 3). The
+				whole process should take only about 25 minutes.
+			</p>
 
-		<h2>Instructions for part 1</h2>
+			<h2>Instructions for part 1</h2>
 
-		<p>
-			For each task, you will see a <b>black figure</b> walking left or right
-			for a few seconds. <b>As fast as you can</b> during this time, press the
-			left arrow key (←) if you think it's moving left or the right arrow key
-			(→) if you think it's moving right. Soon after, you will briefly see a
-			<b>white figure</b> either walking or running. After this, please choose
-			whether you think it was walking or running. You will do 96 tasks like
-			this.
-		</p>
-		<p>
-			Lastly, throughout each task, there will be a <b>red dot</b> in the
-			center of the screen. <b>Please keep your eyes focused on that red dot
-			at all times</b> while doing the tasks.
-		</p>
-		<p></p>
-		<p>
-			When you've understood the instructions and are ready to begin, please click the "Ready" button. After 1 example task, you'll go straight to doing the 96 tasks of part 1.
-		</p>
+			<p>
+				For each task, you will see a <b>black figure</b> walking left or right
+				for a few seconds. <b>As fast as you can</b> during this time, press the
+				left arrow key (←) if you think it's moving left or the right arrow key
+				(→) if you think it's moving right. Soon after, you will briefly see a
+				<b>white figure</b> either walking or running. After this, please choose
+				whether you think it was walking or running. You will do 96 tasks like
+				this.
+			</p>
+			<p>
+				Lastly, throughout each task, there will be a <b>red dot</b> in the
+				center of the screen. <b>Please keep your eyes focused on that red dot
+				at all times</b> while doing the tasks.
+			</p>
+			<p></p>
+			<p>
+				When you've understood the instructions and are ready to begin,
+				please click the "Ready" button. After 1 example task, you'll go
+				straight to doing the 96 tasks of part 1.
+			</p>
 
-		<button>Ready</button>
+			<button class="go-to-part1">Ready</button>
+
+
+			<!-- Get Data -->
+			<div id="footer">
+				<form class="get-data">
+					Data Code
+					<input type="text" name="text" />
+				</form>
+			</div>
+		{{/if}}
+		{{#if part1}}
+			<h3>{{task_name}}</h3>
+
+			<p class="reminder">
+				Press left or right for the black figure, choose walker or runner
+				for the white figure. <br>
+				<b>Keep your eyes on the red dot at all times.</b>
+			</p>
+
+			<div class="center">
+				{{#if waiting}}
+					{{task_file}}
+				{{else}}
+					<h4>Was the white figure walking or running?</h4>
+					<button class="walking">Walking</button> &nbsp; <button class="running">Running</button>
+				{{/if}}
+			</div>
+		{{/if}}
 	{{/if}}
 
 </body>
+
