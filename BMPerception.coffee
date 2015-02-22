@@ -68,12 +68,18 @@ if Meteor.isClient
 				'Example Task'
 			else
 				'Task #' + task_num + " out of " + NUM_OF_TASKS
-		task_file: ->
+		task_file1: ->
 			task_num = Session.get 'task_num'
 			if task_num == 0
 				'part1/example_task.gif'
 			else
 				'part1/task' + task_num + ".gif"
+		task_file3: ->
+			task_num = Session.get 'task_num'
+			if task_num == 0
+				'part3/example_task.gif'
+			else
+				'part3/task' + task_num + ".gif"
 		waiting: ->
 			Session.get 'waiting'
 		# Getting Question Stuff
@@ -103,6 +109,17 @@ if Meteor.isClient
 		if q_num > NUM_OF_QUESTIONS
 			Session.set 'part2', false
 			Session.set 'part2.5', true
+		return
+	save_survey = ->
+		part1 = Session.get 'survey_part1'
+		part2 = Session.get 'survey_part2'
+		part3 = Session.get 'survey_part3'
+		Surveys.insert
+			age: 21
+			createdAt: new Date
+			part1: part1
+			part2: part2
+			part3: part3
 		return
 
 	Template.body.events
@@ -168,4 +185,41 @@ if Meteor.isClient
 			return
 		'click .choice4': ->
 			register_choice 4
+			return
+		'click .go-to-part3': ->
+			Session.set 'part2.5', false
+			Session.set 'part3', true
+			Session.set 'task_num', 0
+			Session.set 'survey_part3', []
+			wait_for_gif()
+			return
+		'click .walking3': ->
+			task_num = Session.get 'task_num'
+			if task_num != 0
+				survey = Session.get 'survey_part3'
+				survey.push 'walking'
+				Session.set 'survey_part3', survey
+			task_num += 1
+			Session.set 'task_num', task_num
+			if task_num > NUM_OF_TASKS
+				Session.set 'part3', false
+				save_survey()
+				Session.set 'part3.5', true
+			else
+				wait_for_gif()
+			return
+		'click .running3': ->
+			task_num = Session.get 'task_num'
+			if task_num != 0
+				survey = Session.get 'survey_part3'
+				survey.push 'running'
+				Session.set 'survey_part3', survey
+			task_num += 1
+			Session.set 'task_num', task_num
+			if task_num > NUM_OF_TASKS
+				Session.set 'part3', false
+				save_survey()
+				Session.set 'part3.5', true
+			else
+				wait_for_gif()
 			return
