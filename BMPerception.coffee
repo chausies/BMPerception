@@ -3,7 +3,15 @@ NUM_OF_TASKS = 7
 DATA_CODE = 'I Love Anh Chau'
 NUM_OF_QUESTIONS = 7
 GIF_LENGTH = 3
-
+questions = [
+	"Ajay is handsome.",
+	"You will love Ajay very very much until forever.",
+	"You miss Ajay very, very much.",
+	"You're very thankful for all of Ajay's hard work.",
+	"Your parents will be very, very happy with Ajay.",
+	"Ajay will continuously be the best lover for you until the end of his days.",
+	"These are great questions."
+]
 
 if Meteor.isClient
 	Template.body.helpers
@@ -68,13 +76,34 @@ if Meteor.isClient
 				'part1/task' + task_num + ".gif"
 		waiting: ->
 			Session.get 'waiting'
+		# Getting Question Stuff
+		question_name: ->
+			q_num = Session.get 'q_num'
+			'Survey Question #' + q_num + " out of " + NUM_OF_QUESTIONS
+		question: ->
+			q_num = Session.get 'q_num'
+			# 'part1/question' + q_num + ".txt"
+			questions[q_num - 1]
 
+	# Helpers functions
 	wait_for_gif = ->
 		Session.set 'waiting', true
 		setTimeout (->
 			Session.set 'waiting', false
 			return
 		), 1000*GIF_LENGTH
+		return
+	register_choice = (choice) ->
+		q_num = Session.get 'q_num'
+		survey = Session.get 'survey_part2'
+		survey.push choice
+		Session.set 'survey_part2', survey
+		q_num += 1
+		Session.set 'q_num', q_num
+		if q_num > NUM_OF_QUESTIONS
+			Session.set 'part2', false
+			Session.set 'part2.5', true
+		return
 
 	Template.body.events
 		'submit .get-data': (event) ->
@@ -93,7 +122,7 @@ if Meteor.isClient
 			Session.set 'survey_part1', []
 			wait_for_gif()
 			return
-		'click .walking': ->
+		'click .walking1': ->
 			task_num = Session.get 'task_num'
 			if task_num != 0
 				survey = Session.get 'survey_part1'
@@ -107,7 +136,7 @@ if Meteor.isClient
 			else
 				wait_for_gif()
 			return
-		'click .running': ->
+		'click .running1': ->
 			task_num = Session.get 'task_num'
 			if task_num != 0
 				survey = Session.get 'survey_part1'
@@ -120,4 +149,23 @@ if Meteor.isClient
 				Session.set 'part1.5', true
 			else
 				wait_for_gif()
+			return
+		'click .go-to-part2': ->
+			Session.set 'part1.5', false
+			Session.set 'part2', true
+			Session.set 'q_num', 1
+			Session.set 'survey_part2', []
+			return
+		# Register choices
+		'click .choice1': ->
+			register_choice 1
+			return
+		'click .choice2': ->
+			register_choice 2
+			return
+		'click .choice3': ->
+			register_choice 3
+			return
+		'click .choice4': ->
+			register_choice 4
 			return
