@@ -2,7 +2,8 @@ Surveys = new (Mongo.Collection)('surveys')
 NUM_OF_TASKS = 7
 DATA_CODE = 'I Love Anh Chau'
 NUM_OF_QUESTIONS = 7
-GIF_LENGTH = 9
+GIF_LENGTH = 3
+
 
 if Meteor.isClient
 	Template.body.helpers
@@ -68,6 +69,13 @@ if Meteor.isClient
 		waiting: ->
 			Session.get 'waiting'
 
+	wait_for_gif = ->
+		Session.set 'waiting', true
+		setTimeout (->
+			Session.set 'waiting', false
+			return
+		), 1000*GIF_LENGTH
+
 	Template.body.events
 		'submit .get-data': (event) ->
 			text = event.target.text.value
@@ -82,9 +90,34 @@ if Meteor.isClient
 		'click .go-to-part1': ->
 			Session.set 'part1', true
 			Session.set 'task_num', 0
-			Session.set 'waiting', true
-			setTimeout (->
-				Session.set 'waiting', false
-				return
-			), 1000*GIF_LENGTH
+			Session.set 'survey_part1', []
+			wait_for_gif()
+			return
+		'click .walking': ->
+			task_num = Session.get 'task_num'
+			if task_num != 0
+				survey = Session.get 'survey_part1'
+				survey.push 'walking'
+				Session.set 'survey_part1', survey
+			task_num += 1
+			Session.set 'task_num', task_num
+			if task_num > NUM_OF_TASKS
+				Session.set 'part1', false
+				Session.set 'part1.5', true
+			else
+				wait_for_gif()
+			return
+		'click .running': ->
+			task_num = Session.get 'task_num'
+			if task_num != 0
+				survey = Session.get 'survey_part1'
+				survey.push 'running'
+				Session.set 'survey_part1', survey
+			task_num += 1
+			Session.set 'task_num', task_num
+			if task_num > NUM_OF_TASKS
+				Session.set 'part1', false
+				Session.set 'part1.5', true
+			else
+				wait_for_gif()
 			return
