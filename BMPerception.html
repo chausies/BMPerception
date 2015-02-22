@@ -4,9 +4,38 @@
 
 <body>
   <h1>Biological Motion Perception Survey</h1>
-</body>
 
-<template name="hello">
-  <button>Click Me</button>
-  <p>You've pressed the button {{counter}} times.</p>
-</template>
+	<br>
+
+	{{#if part0}}
+		<p>
+			Welcome! You will be given a series of 96 tasks (part 1), a quick
+			survey (part 2), and then another series of 96 tasks (part 3). The
+			whole process should take only about 25 minutes.
+		</p>
+
+		<h2>Instructions for part 1</h2>
+
+		<p>
+			For each task, you will see a <b>black figure</b> walking left or right
+			for a few seconds. <b>As fast as you can</b> during this time, press the
+			left arrow key (←) if you think it's moving left or the right arrow key
+			(→) if you think it's moving right. Soon after, you will briefly see a
+			<b>white figure</b> either walking or running. After this, please choose
+			whether you think it was walking or running. You will do 96 tasks like
+			this.
+		</p>
+		<p>
+			Lastly, throughout each task, there will be a <b>red dot</b> in the
+			center of the screen. <b>Please keep your eyes focused on that red dot
+			at all times</b> while doing the tasks.
+		</p>
+		<p></p>
+		<p>
+			When you've understood the instructions and are ready to begin, please click the "Ready" button. After 1 example task, you'll go straight to doing the 96 tasks of part 1.
+		</p>
+
+		<button>Ready</button>
+	{{/if}}
+
+</body>
