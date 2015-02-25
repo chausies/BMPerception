@@ -6,7 +6,7 @@ questions = [
 	"You prefer to stay home and read a book rather than going out.",
 	'You consider yourself able to "read between the lines".',
 	"You are able to read someone's emotions based on their body language.",
-	"You prefer to company of a large crowd as opposed to the company of a few people.",
+	"You prefer the company of a large crowd as opposed to the company of a few people.",
 	"You can empathize with a stranger's emotions.",
 	"Some things should be communicated between friends without words.",
 	"You are pessimistic."
