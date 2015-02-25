@@ -1,17 +1,17 @@
 Surveys = new (Mongo.Collection)('surveys')
 NUM_OF_TASKS = 7
 DATA_CODE = 'I Love Anh Chau'
-NUM_OF_QUESTIONS = 7
 GIF_LENGTH = 3
 questions = [
-	"Ajay is handsome.",
-	"You will love Ajay very very much until forever.",
-	"You miss Ajay very, very much.",
-	"You're very thankful for all of Ajay's hard work.",
-	"Your parents will be very, very happy with Ajay.",
-	"Ajay will continuously be the best lover for you until the end of his days.",
-	"These are great questions."
+	"You prefer to stay home and read a book rather than going out.",
+	'You consider yourself able to "read between the lines".',
+	"You are able to read someone's emotions based on their body language.",
+	"You prefer to company of a large crowd as opposed to the company of a few people.",
+	"You can empathize with a stranger's emotions.",
+	"Some things should be communicated between friends without words.",
+	"You are pessimistic."
 ]
+NUM_OF_QUESTIONS = questions.length
 
 if Meteor.isClient
 	Template.body.helpers
