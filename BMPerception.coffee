@@ -1,7 +1,4 @@
-Surveys = new (Mongo.Collection)('surveys')
-NUM_OF_TASKS = 7
-DATA_CODE = 'I Love Anh Chau'
-GIF_LENGTH = 3
+DATA_CODE = 'Psyched'
 questions = [
 	"You prefer to stay home and read a book rather than going out.",
 	'You consider yourself able to "read between the lines".',
@@ -12,6 +9,9 @@ questions = [
 	"You are pessimistic."
 ]
 NUM_OF_QUESTIONS = questions.length
+NUM_OF_TASKS = 7
+GIF_LENGTH = 3
+Surveys = new (Mongo.Collection)('surveys')
 
 if Meteor.isClient
 	Template.body.helpers
