@@ -2,17 +2,17 @@
 (function() {
   var DATA_CODE, GIF_LENGTH, NUM_OF_QUESTIONS, NUM_OF_TASKS, Surveys, questions, register_choice, save_survey, wait_for_gif;
 
-  Surveys = new Mongo.Collection('surveys');
-
-  NUM_OF_TASKS = 7;
-
-  DATA_CODE = 'I Love Anh Chau';
-
-  GIF_LENGTH = 3;
+  DATA_CODE = 'Psyched';
 
   questions = ["You prefer to stay home and read a book rather than going out.", 'You consider yourself able to "read between the lines".', "You are able to read someone's emotions based on their body language.", "You prefer the company of a large crowd as opposed to the company of a few people.", "You can empathize with a stranger's emotions.", "Some things should be communicated between friends without words.", "You are pessimistic."];
 
   NUM_OF_QUESTIONS = questions.length;
+
+  NUM_OF_TASKS = 7;
+
+  GIF_LENGTH = 3;
+
+  Surveys = new Mongo.Collection('surveys');
 
   if (Meteor.isClient) {
     Template.body.helpers({
