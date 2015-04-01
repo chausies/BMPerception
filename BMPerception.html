@@ -61,14 +61,34 @@
 				<b>Keep your eyes on the red dot at all times.</b>
 			</p>
 
-			<div class="center">
-				{{#if waiting}}
-					{{task_file1}}
-				{{else}}
+			{{#if black_waiting}}
+				<div class="left-centered">
+					<img src="{{task_black_file_left}}" onerror="this.style.display='none'">
+				</div>
+				<div class="centered">
+					<div id="dot"> </div>
+				</div>
+				<div class="right-centered">
+					<img src="{{task_black_file_right}}" onerror="this.style.display='none'">
+				</div>
+			{{/if}}
+			{{#if white_waiting}}
+				<div class="left-centered">
+					<img src="{{task_white_file_left}}" onerror="this.style.display='none'">
+				</div>
+				<div class="centered">
+					<div id="dot"> </div>
+				</div>
+				<div class="right-centered">
+					<img src="{{task_white_file_right}}" onerror="this.style.display='none'">
+				</div>
+			{{/if}}
+			{{#unless waiting}}
+				<div class="centered">
 					<h4>Was the white figure walking or running?</h4>
 					<button class="walking1">Walking</button> &nbsp; <button class="running1">Running</button>
-				{{/if}}
-			</div>
+				</div>
+			{{/unless}}
 		{{/if}}
 		{{#if part1_5}}
 			<h2>Instructions for part 2</h2>
@@ -133,14 +153,34 @@
 				<b>Keep your eyes on the red dot at all times.</b>
 			</p>
 
-			<div class="center">
-				{{#if waiting}}
-					{{task_file3}}
-				{{else}}
+			{{#if black_waiting}}
+				<div class="left-centered">
+					<img src="{{task_black_file_left}}" onerror="this.style.display='none'">
+				</div>
+				<div class="centered">
+					<div id="dot"> </div>
+				</div>
+				<div class="right-centered">
+					<img src="{{task_black_file_right}}" onerror="this.style.display='none'">
+				</div>
+			{{/if}}
+			{{#if white_waiting}}
+				<div class="left-centered">
+					<img src="{{task_white_file_left}}" onerror="this.style.display='none'">
+				</div>
+				<div class="centered">
+					<div id="dot"> </div>
+				</div>
+				<div class="right-centered">
+					<img src="{{task_white_file_right}}" onerror="this.style.display='none'">
+				</div>
+			{{/if}}
+			{{#unless waiting}}
+				<div class="centered">
 					<h4>Was the white figure walking or running?</h4>
 					<button class="walking3">Walking</button> &nbsp; <button class="running3">Running</button>
-				{{/if}}
-			</div>
+				</div>
+			{{/unless}}
 		{{/if}}
 		{{#if part3_5}}
 			<div class="center">

@@ -10,7 +10,8 @@ questions = [
 ]
 NUM_OF_QUESTIONS = questions.length
 NUM_OF_TASKS = 7
-GIF_LENGTH = 3
+BLACK_GIF_LENGTH = 7
+WHITE_GIF_LENGTH = 2
 Surveys = new (Mongo.Collection)('surveys')
 
 if Meteor.isClient
@@ -68,20 +69,37 @@ if Meteor.isClient
 				'Example Task'
 			else
 				'Task #' + task_num + " out of " + NUM_OF_TASKS
-		task_file1: ->
+		task_black_file_left: ->
 			task_num = Session.get 'task_num'
 			if task_num == 0
-				'part1/example_task.gif'
+				''
 			else
-				'part1/task' + task_num + ".gif"
-		task_file3: ->
+				'Black/task' + task_num + 'Bleft.gif'
+		task_black_file_right: ->
 			task_num = Session.get 'task_num'
 			if task_num == 0
-				'part3/example_task.gif'
+				'Black/task10Bright.gif'
 			else
-				'part3/task' + task_num + ".gif"
+				'Black/task' + task_num + 'Bright.gif'
+		task_white_file_left: ->
+			task_num = Session.get 'task_num'
+			if task_num == 0
+				'White/task54Wleft.gif'
+			else
+				'White/task' + task_num + 'Wleft.gif'
+		task_white_file_right: ->
+			task_num = Session.get 'task_num'
+			if task_num == 0
+				''
+			else
+				'White/task' + task_num + 'Wright.gif'
+    # Waiting stuff
+		black_waiting: ->
+			Session.get 'black_waiting'
+		white_waiting: ->
+			Session.get 'white_waiting'
 		waiting: ->
-			Session.get 'waiting'
+			Session.get('black_waiting') || Session.get('white_waiting')
 		# Getting Question Stuff
 		question_name: ->
 			q_num = Session.get 'q_num'
@@ -92,12 +110,20 @@ if Meteor.isClient
 			questions[q_num - 1]
 
 	# Helpers functions
-	wait_for_gif = ->
-		Session.set 'waiting', true
+	wait_for_black_gif = ->
+		Session.set 'black_waiting', true
 		setTimeout (->
-			Session.set 'waiting', false
+			Session.set 'black_waiting', false
+			wait_for_white_gif()
 			return
-		), 1000*GIF_LENGTH
+		), 1000*BLACK_GIF_LENGTH
+		return
+	wait_for_white_gif = ->
+		Session.set 'white_waiting', true
+		setTimeout (->
+			Session.set 'white_waiting', false
+			return
+		), 1000*WHITE_GIF_LENGTH
 		return
 	register_choice = (choice) ->
 		q_num = Session.get 'q_num'
@@ -137,7 +163,7 @@ if Meteor.isClient
 			Session.set 'part1', true
 			Session.set 'task_num', 0
 			Session.set 'survey_part1', []
-			wait_for_gif()
+			wait_for_black_gif()
 			return
 		'click .walking1': ->
 			task_num = Session.get 'task_num'
@@ -151,7 +177,7 @@ if Meteor.isClient
 				Session.set 'part1', false
 				Session.set 'part1.5', true
 			else
-				wait_for_gif()
+				wait_for_black_gif()
 			return
 		'click .running1': ->
 			task_num = Session.get 'task_num'
@@ -165,7 +191,7 @@ if Meteor.isClient
 				Session.set 'part1', false
 				Session.set 'part1.5', true
 			else
-				wait_for_gif()
+				wait_for_black_gif()
 			return
 		'click .go-to-part2': ->
 			Session.set 'part1.5', false
@@ -191,7 +217,7 @@ if Meteor.isClient
 			Session.set 'part3', true
 			Session.set 'task_num', 0
 			Session.set 'survey_part3', []
-			wait_for_gif()
+			wait_for_black_gif()
 			return
 		'click .walking3': ->
 			task_num = Session.get 'task_num'
@@ -206,7 +232,7 @@ if Meteor.isClient
 				save_survey()
 				Session.set 'part3.5', true
 			else
-				wait_for_gif()
+				wait_for_black_gif()
 			return
 		'click .running3': ->
 			task_num = Session.get 'task_num'
@@ -221,5 +247,5 @@ if Meteor.isClient
 				save_survey()
 				Session.set 'part3.5', true
 			else
-				wait_for_gif()
+				wait_for_black_gif()
 			return
