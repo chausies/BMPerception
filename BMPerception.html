@@ -13,9 +13,9 @@
 	{{else}}
 		{{#if part0}}
 			<p>
-				Welcome! You will be given a series of 96 tasks (part 1), a quick
-				survey (part 2), and then another series of 96 tasks (part 3). The
-				whole process should take only about 25 minutes.
+				Welcome! You will be given a series of 96 tasks (part 1), another series
+				of 96 tasks (part 2), and then a quick survey (part 3). The whole
+				process should take only about 30 minutes.
 			</p>
 
 			<h2>Instructions for part 1</h2>
@@ -94,42 +94,7 @@
 			<h2>Instructions for part 2</h2>
 
 			<p>
-				You will now be given a series of 35 survey questions on your
-				feelings on different matters. For each question, choose from 1
-				(Definitely Agree) to 4 (Definitely Disagree) for whichever sentiment
-				most represents your opinion.
-			</p>
-			<p>
-			</p>
-			<p></p>
-			<p>
-				When you've understood the instructions and are ready to begin,
-				please click the "Ready" button. 
-			</p>
-
-			<button class="go-to-part2">Ready</button>
-		{{/if}}
-		{{#if part2}}
-			<h3>{{question_name}}</h3>
-
-			<p class="reminder">
-				Choose the answer which most matches your opinion.
-			</p>
-
-			<div class="center">
-				<h4>{{question}}</h4>
-
-				<button class="choice1">1: Definitely Agree</button> &nbsp;
-				<button class="choice2">2: Slightly Agree</button> &nbsp;
-				<button class="choice3">3: Slightly Disagree</button> &nbsp;
-				<button class="choice4">4: Definitely Disagree</button> &nbsp;
-			</div>
-		{{/if}}
-		{{#if part2_5}}
-			<h2>Instructions for part 3</h2>
-
-			<p>
-			Part 3 is just like Part 1, except now, you <b>only</b> focus on the
+			Part 2 is just like Part 1, except now, you <b>only</b> focus on the
 			white figure. <b>Ignore</b> the black figure, and try your best to
 			tell whether the white figure is running or walking. Again, make sure
 			to <b>always</b> keep your eyes focused on the red dot in the center
@@ -139,12 +104,12 @@
 			<p>
 				When you've understood the instructions and are ready to begin,
 				please click the "Ready" button. After 1 example task, you'll go
-				straight to doing the 96 tasks of part 3, and then you'll be done!
+				straight to doing the 96 tasks of part 2, and then you'll be done!
 			</p>
 
-			<button class="go-to-part3">Ready</button>
+			<button class="go-to-part2">Ready</button>
 		{{/if}}
-		{{#if part3}}
+		{{#if part2}}
 			<h3>{{task_name}}</h3>
 
 			<p class="reminder">
@@ -178,9 +143,44 @@
 			{{#unless waiting}}
 				<div class="centered">
 					<h4>Was the white figure walking or running?</h4>
-					<button class="walking3">Walking</button> &nbsp; <button class="running3">Running</button>
+					<button class="walking2">Walking</button> &nbsp; <button class="running2">Running</button>
 				</div>
 			{{/unless}}
+		{{/if}}
+		{{#if part2_5}}
+			<h2>Instructions for part 3</h2>
+
+			<p>
+				You will now be given a series of 35 survey questions on your
+				feelings on different matters. For each question, choose from 1
+				(Definitely Agree) to 4 (Definitely Disagree) for whichever sentiment
+				most represents your opinion.
+			</p>
+			<p>
+			</p>
+			<p></p>
+			<p>
+				When you've understood the instructions and are ready to begin,
+				please click the "Ready" button. 
+			</p>
+
+			<button class="go-to-part3">Ready</button>
+		{{/if}}
+		{{#if part3}}
+			<h3>{{question_name}}</h3>
+
+			<p class="reminder">
+				Choose the answer which most matches your opinion.
+			</p>
+
+			<div class="center">
+				<h4>{{question}}</h4>
+
+				<button class="choice1">1: Definitely Agree</button> &nbsp;
+				<button class="choice2">2: Slightly Agree</button> &nbsp;
+				<button class="choice3">3: Slightly Disagree</button> &nbsp;
+				<button class="choice4">4: Definitely Disagree</button> &nbsp;
+			</div>
 		{{/if}}
 		{{#if part3_5}}
 			<div class="center">

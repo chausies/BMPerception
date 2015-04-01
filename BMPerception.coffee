@@ -22,10 +22,10 @@ if Meteor.isClient
 			features = ["Age, Survey Finish Time"]
 			for task in [1..NUM_OF_TASKS]
 				features.push 'Part 1: Task #' + task
-			for question in [1..NUM_OF_QUESTIONS]
-				features.push 'Part 2: QUESTION #' + question
 			for task in [1..NUM_OF_TASKS]
-				features.push 'Part 3: Task #' + task
+				features.push 'Part 2: Task #' + task
+			for question in [1..NUM_OF_QUESTIONS]
+				features.push 'Part 3: QUESTION #' + question
 			csv = features.join(", ") + "\n"
 			Surveys.find().forEach (survey) ->
 				csv += [
@@ -127,14 +127,15 @@ if Meteor.isClient
 		return
 	register_choice = (choice) ->
 		q_num = Session.get 'q_num'
-		survey = Session.get 'survey_part2'
+		survey = Session.get 'survey_part3'
 		survey.push choice
-		Session.set 'survey_part2', survey
+		Session.set 'survey_part3', survey
 		q_num += 1
 		Session.set 'q_num', q_num
 		if q_num > NUM_OF_QUESTIONS
-			Session.set 'part2', false
-			Session.set 'part2.5', true
+			Session.set 'part3', false
+			save_survey()
+			Session.set 'part3.5', true
 		return
 	save_survey = ->
 		part1 = Session.get 'survey_part1'
@@ -196,8 +197,43 @@ if Meteor.isClient
 		'click .go-to-part2': ->
 			Session.set 'part1.5', false
 			Session.set 'part2', true
-			Session.set 'q_num', 1
+			Session.set 'task_num', 0
 			Session.set 'survey_part2', []
+			wait_for_black_gif()
+			return
+		'click .walking2': ->
+			task_num = Session.get 'task_num'
+			if task_num != 0
+				survey = Session.get 'survey_part2'
+				survey.push 'walking'
+				Session.set 'survey_part2', survey
+			task_num += 1
+			Session.set 'task_num', task_num
+			if task_num > NUM_OF_TASKS
+				Session.set 'part2', false
+				Session.set 'part2.5', true
+			else
+				wait_for_black_gif()
+			return
+		'click .running2': ->
+			task_num = Session.get 'task_num'
+			if task_num != 0
+				survey = Session.get 'survey_part2'
+				survey.push 'running'
+				Session.set 'survey_part2', survey
+			task_num += 1
+			Session.set 'task_num', task_num
+			if task_num > NUM_OF_TASKS
+				Session.set 'part2', false
+				Session.set 'part2.5', true
+			else
+				wait_for_black_gif()
+			return
+		'click .go-to-part3': ->
+			Session.set 'part2.5', false
+			Session.set 'part3', true
+			Session.set 'q_num', 1
+			Session.set 'survey_part3', []
 			return
 		# Register choices
 		'click .choice1': ->
@@ -211,41 +247,4 @@ if Meteor.isClient
 			return
 		'click .choice4': ->
 			register_choice 4
-			return
-		'click .go-to-part3': ->
-			Session.set 'part2.5', false
-			Session.set 'part3', true
-			Session.set 'task_num', 0
-			Session.set 'survey_part3', []
-			wait_for_black_gif()
-			return
-		'click .walking3': ->
-			task_num = Session.get 'task_num'
-			if task_num != 0
-				survey = Session.get 'survey_part3'
-				survey.push 'walking'
-				Session.set 'survey_part3', survey
-			task_num += 1
-			Session.set 'task_num', task_num
-			if task_num > NUM_OF_TASKS
-				Session.set 'part3', false
-				save_survey()
-				Session.set 'part3.5', true
-			else
-				wait_for_black_gif()
-			return
-		'click .running3': ->
-			task_num = Session.get 'task_num'
-			if task_num != 0
-				survey = Session.get 'survey_part3'
-				survey.push 'running'
-				Session.set 'survey_part3', survey
-			task_num += 1
-			Session.set 'task_num', task_num
-			if task_num > NUM_OF_TASKS
-				Session.set 'part3', false
-				save_survey()
-				Session.set 'part3.5', true
-			else
-				wait_for_black_gif()
 			return

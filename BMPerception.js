@@ -27,11 +27,11 @@
         for (task = i = 1, ref = NUM_OF_TASKS; 1 <= ref ? i <= ref : i >= ref; task = 1 <= ref ? ++i : --i) {
           features.push('Part 1: Task #' + task);
         }
-        for (question = j = 1, ref1 = NUM_OF_QUESTIONS; 1 <= ref1 ? j <= ref1 : j >= ref1; question = 1 <= ref1 ? ++j : --j) {
-          features.push('Part 2: QUESTION #' + question);
+        for (task = j = 1, ref1 = NUM_OF_TASKS; 1 <= ref1 ? j <= ref1 : j >= ref1; task = 1 <= ref1 ? ++j : --j) {
+          features.push('Part 2: Task #' + task);
         }
-        for (task = k = 1, ref2 = NUM_OF_TASKS; 1 <= ref2 ? k <= ref2 : k >= ref2; task = 1 <= ref2 ? ++k : --k) {
-          features.push('Part 3: Task #' + task);
+        for (question = k = 1, ref2 = NUM_OF_QUESTIONS; 1 <= ref2 ? k <= ref2 : k >= ref2; question = 1 <= ref2 ? ++k : --k) {
+          features.push('Part 3: QUESTION #' + question);
         }
         csv = features.join(", ") + "\n";
         Surveys.find().forEach(function(survey) {
@@ -145,14 +145,15 @@
     register_choice = function(choice) {
       var q_num, survey;
       q_num = Session.get('q_num');
-      survey = Session.get('survey_part2');
+      survey = Session.get('survey_part3');
       survey.push(choice);
-      Session.set('survey_part2', survey);
+      Session.set('survey_part3', survey);
       q_num += 1;
       Session.set('q_num', q_num);
       if (q_num > NUM_OF_QUESTIONS) {
-        Session.set('part2', false);
-        Session.set('part2.5', true);
+        Session.set('part3', false);
+        save_survey();
+        Session.set('part3.5', true);
       }
     };
     save_survey = function() {
@@ -223,8 +224,49 @@
       'click .go-to-part2': function() {
         Session.set('part1.5', false);
         Session.set('part2', true);
-        Session.set('q_num', 1);
+        Session.set('task_num', 0);
         Session.set('survey_part2', []);
+        wait_for_black_gif();
+      },
+      'click .walking2': function() {
+        var survey, task_num;
+        task_num = Session.get('task_num');
+        if (task_num !== 0) {
+          survey = Session.get('survey_part2');
+          survey.push('walking');
+          Session.set('survey_part2', survey);
+        }
+        task_num += 1;
+        Session.set('task_num', task_num);
+        if (task_num > NUM_OF_TASKS) {
+          Session.set('part2', false);
+          Session.set('part2.5', true);
+        } else {
+          wait_for_black_gif();
+        }
+      },
+      'click .running2': function() {
+        var survey, task_num;
+        task_num = Session.get('task_num');
+        if (task_num !== 0) {
+          survey = Session.get('survey_part2');
+          survey.push('running');
+          Session.set('survey_part2', survey);
+        }
+        task_num += 1;
+        Session.set('task_num', task_num);
+        if (task_num > NUM_OF_TASKS) {
+          Session.set('part2', false);
+          Session.set('part2.5', true);
+        } else {
+          wait_for_black_gif();
+        }
+      },
+      'click .go-to-part3': function() {
+        Session.set('part2.5', false);
+        Session.set('part3', true);
+        Session.set('q_num', 1);
+        Session.set('survey_part3', []);
       },
       'click .choice1': function() {
         register_choice(1);
@@ -237,49 +279,6 @@
       },
       'click .choice4': function() {
         register_choice(4);
-      },
-      'click .go-to-part3': function() {
-        Session.set('part2.5', false);
-        Session.set('part3', true);
-        Session.set('task_num', 0);
-        Session.set('survey_part3', []);
-        wait_for_black_gif();
-      },
-      'click .walking3': function() {
-        var survey, task_num;
-        task_num = Session.get('task_num');
-        if (task_num !== 0) {
-          survey = Session.get('survey_part3');
-          survey.push('walking');
-          Session.set('survey_part3', survey);
-        }
-        task_num += 1;
-        Session.set('task_num', task_num);
-        if (task_num > NUM_OF_TASKS) {
-          Session.set('part3', false);
-          save_survey();
-          Session.set('part3.5', true);
-        } else {
-          wait_for_black_gif();
-        }
-      },
-      'click .running3': function() {
-        var survey, task_num;
-        task_num = Session.get('task_num');
-        if (task_num !== 0) {
-          survey = Session.get('survey_part3');
-          survey.push('running');
-          Session.set('survey_part3', survey);
-        }
-        task_num += 1;
-        Session.set('task_num', task_num);
-        if (task_num > NUM_OF_TASKS) {
-          Session.set('part3', false);
-          save_survey();
-          Session.set('part3.5', true);
-        } else {
-          wait_for_black_gif();
-        }
       }
     });
   }
