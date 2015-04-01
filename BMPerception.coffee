@@ -10,8 +10,8 @@ questions = [
 ]
 NUM_OF_QUESTIONS = questions.length
 NUM_OF_TASKS = 7
-BLACK_GIF_LENGTH = 7
-WHITE_GIF_LENGTH = 2
+BLACK_GIF_LENGTH = 6
+WHITE_GIF_LENGTH = 1
 Surveys = new (Mongo.Collection)('surveys')
 
 if Meteor.isClient

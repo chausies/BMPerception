@@ -10,9 +10,9 @@
 
   NUM_OF_TASKS = 7;
 
-  BLACK_GIF_LENGTH = 7;
+  BLACK_GIF_LENGTH = 6;
 
-  WHITE_GIF_LENGTH = 2;
+  WHITE_GIF_LENGTH = 1;
 
   Surveys = new Mongo.Collection('surveys');
 
