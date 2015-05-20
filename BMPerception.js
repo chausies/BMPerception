@@ -152,6 +152,12 @@
       white_waiting: function() {
         return Session.get('white_waiting');
       },
+      black_question: function() {
+        return Session.get('black_waiting');
+      },
+      white_question: function() {
+        return Session.get('white_waiting');
+      },
       waiting: function() {
         return Session.get('black_waiting') || Session.get('white_waiting');
       },
