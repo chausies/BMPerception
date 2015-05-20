@@ -13,8 +13,8 @@ RIGHT = 1
 WALK = 0
 RUN = 1
 NUM_OF_QUESTIONS = questions.length
-NUM_OF_TASKS = 2
-BLACK_GIF_LENGTH = 1
+NUM_OF_TASKS = 4
+BLACK_GIF_LENGTH = 2
 WHITE_GIF_LENGTH = 1
 Surveys = new (Mongo.Collection)('surveys')
 
