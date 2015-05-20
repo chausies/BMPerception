@@ -14,6 +14,15 @@ BLACK_GIF_LENGTH = 6
 WHITE_GIF_LENGTH = 1
 Surveys = new (Mongo.Collection)('surveys')
 
+randperm = (n, k=n) ->
+	a = [1..n]
+	i = n
+	while i
+		j = Math.floor(Math.random() * i)
+		x = a[--i]
+		[a[i], a[j]] = [a[j], x]
+	return a[..(k-1)]
+
 if Meteor.isClient
 	Template.body.helpers
 		get_data: ->
@@ -74,25 +83,33 @@ if Meteor.isClient
 			if task_num == 0
 				''
 			else
-				'Black/task' + task_num + 'Bleft.gif'
+				p = if (Session.get 'part1') then 1 else 2
+				order = Session.get 'order' + p
+				'Black/task' + order[task_num] + 'Bleft.gif'
 		task_black_file_right: ->
 			task_num = Session.get 'task_num'
 			if task_num == 0
 				'Black/task10Bright.gif'
 			else
-				'Black/task' + task_num + 'Bright.gif'
+				p = if (Session.get 'part1') then 1 else 2
+				order = Session.get 'order' + p
+				'Black/task' + order[task_num] + 'Bright.gif'
 		task_white_file_left: ->
 			task_num = Session.get 'task_num'
 			if task_num == 0
 				'White/task54Wleft.gif'
 			else
-				'White/task' + task_num + 'Wleft.gif'
+				p = if (Session.get 'part1') then 1 else 2
+				order = Session.get 'order' + p
+				'White/task' + order[task_num] + 'Wleft.gif'
 		task_white_file_right: ->
 			task_num = Session.get 'task_num'
 			if task_num == 0
 				''
 			else
-				'White/task' + task_num + 'Wright.gif'
+				p = if (Session.get 'part1') then 1 else 2
+				order = Session.get 'order' + p
+				'White/task' + order[task_num] + 'Wright.gif'
     # Waiting stuff
 		black_waiting: ->
 			Session.get 'black_waiting'
@@ -164,13 +181,16 @@ if Meteor.isClient
 			Session.set 'part1', true
 			Session.set 'task_num', 0
 			Session.set 'survey_part1', []
+			Session.set 'order1', randperm(NUM_OF_TASKS)
+			Session.set 'order2', randperm(NUM_OF_TASKS)
 			wait_for_black_gif()
 			return
 		'click .walking1': ->
 			task_num = Session.get 'task_num'
 			if task_num != 0
 				survey = Session.get 'survey_part1'
-				survey.push 'walking'
+				order = Session.get 'order1'
+				survey[order[task_num]-1] = 'walking'
 				Session.set 'survey_part1', survey
 			task_num += 1
 			Session.set 'task_num', task_num
@@ -184,7 +204,8 @@ if Meteor.isClient
 			task_num = Session.get 'task_num'
 			if task_num != 0
 				survey = Session.get 'survey_part1'
-				survey.push 'running'
+				order = Session.get 'order1'
+				survey[order[task_num ]-1] = 'running'
 				Session.set 'survey_part1', survey
 			task_num += 1
 			Session.set 'task_num', task_num
@@ -205,7 +226,8 @@ if Meteor.isClient
 			task_num = Session.get 'task_num'
 			if task_num != 0
 				survey = Session.get 'survey_part2'
-				survey.push 'walking'
+				order = Session.get 'order2'
+				survey[order[task_num]-1] = 'walking'
 				Session.set 'survey_part2', survey
 			task_num += 1
 			Session.set 'task_num', task_num
@@ -219,7 +241,8 @@ if Meteor.isClient
 			task_num = Session.get 'task_num'
 			if task_num != 0
 				survey = Session.get 'survey_part2'
-				survey.push 'running'
+				order = Session.get 'order2'
+				survey[order[task_num]-1] = 'running'
 				Session.set 'survey_part2', survey
 			task_num += 1
 			Session.set 'task_num', task_num
