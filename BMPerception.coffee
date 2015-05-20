@@ -85,7 +85,7 @@ if Meteor.isClient
 			else
 				p = if (Session.get 'part1') then 1 else 2
 				order = Session.get 'order' + p
-				'Black/task' + order[task_num] + 'Bleft.gif'
+				'Black/task' + order[task_num-1] + 'Bleft.gif'
 		task_black_file_right: ->
 			task_num = Session.get 'task_num'
 			if task_num == 0
@@ -93,7 +93,7 @@ if Meteor.isClient
 			else
 				p = if (Session.get 'part1') then 1 else 2
 				order = Session.get 'order' + p
-				'Black/task' + order[task_num] + 'Bright.gif'
+				'Black/task' + order[task_num-1] + 'Bright.gif'
 		task_white_file_left: ->
 			task_num = Session.get 'task_num'
 			if task_num == 0
@@ -101,7 +101,7 @@ if Meteor.isClient
 			else
 				p = if (Session.get 'part1') then 1 else 2
 				order = Session.get 'order' + p
-				'White/task' + order[task_num] + 'Wleft.gif'
+				'White/task' + order[task_num-1] + 'Wleft.gif'
 		task_white_file_right: ->
 			task_num = Session.get 'task_num'
 			if task_num == 0
@@ -109,7 +109,7 @@ if Meteor.isClient
 			else
 				p = if (Session.get 'part1') then 1 else 2
 				order = Session.get 'order' + p
-				'White/task' + order[task_num] + 'Wright.gif'
+				'White/task' + order[task_num-1] + 'Wright.gif'
     # Waiting stuff
 		black_waiting: ->
 			Session.get 'black_waiting'
@@ -123,8 +123,10 @@ if Meteor.isClient
 			'Survey Question #' + q_num + " out of " + NUM_OF_QUESTIONS
 		question: ->
 			q_num = Session.get 'q_num'
+			order = Session.get 'order3'
+			q_num = order[q_num-1]
 			# 'part1/question' + q_num + ".txt"
-			questions[q_num - 1]
+			questions[q_num]
 
 	# Helpers functions
 	wait_for_black_gif = ->
@@ -144,8 +146,10 @@ if Meteor.isClient
 		return
 	register_choice = (choice) ->
 		q_num = Session.get 'q_num'
+		order = Session.get 'order3'
+		q = order[q_num-1]
 		survey = Session.get 'survey_part3'
-		survey.push choice
+		survey[q] = choice
 		Session.set 'survey_part3', survey
 		q_num += 1
 		Session.set 'q_num', q_num
@@ -183,6 +187,7 @@ if Meteor.isClient
 			Session.set 'survey_part1', []
 			Session.set 'order1', randperm(NUM_OF_TASKS)
 			Session.set 'order2', randperm(NUM_OF_TASKS)
+			Session.set 'order3', randperm(NUM_OF_QUESTIONS)
 			wait_for_black_gif()
 			return
 		'click .walking1': ->
@@ -190,7 +195,7 @@ if Meteor.isClient
 			if task_num != 0
 				survey = Session.get 'survey_part1'
 				order = Session.get 'order1'
-				survey[order[task_num]-1] = 'walking'
+				survey[order[task_num-1]] = 'walking'
 				Session.set 'survey_part1', survey
 			task_num += 1
 			Session.set 'task_num', task_num
@@ -205,7 +210,7 @@ if Meteor.isClient
 			if task_num != 0
 				survey = Session.get 'survey_part1'
 				order = Session.get 'order1'
-				survey[order[task_num ]-1] = 'running'
+				survey[order[task_num-1]] = 'running'
 				Session.set 'survey_part1', survey
 			task_num += 1
 			Session.set 'task_num', task_num
@@ -227,7 +232,7 @@ if Meteor.isClient
 			if task_num != 0
 				survey = Session.get 'survey_part2'
 				order = Session.get 'order2'
-				survey[order[task_num]-1] = 'walking'
+				survey[order[task_num-1]] = 'walking'
 				Session.set 'survey_part2', survey
 			task_num += 1
 			Session.set 'task_num', task_num
@@ -242,7 +247,7 @@ if Meteor.isClient
 			if task_num != 0
 				survey = Session.get 'survey_part2'
 				order = Session.get 'order2'
-				survey[order[task_num]-1] = 'running'
+				survey[order[task_num-1]] = 'running'
 				Session.set 'survey_part2', survey
 			task_num += 1
 			Session.set 'task_num', task_num

@@ -100,7 +100,7 @@
         } else {
           p = Session.get('part1') ? 1 : 2;
           order = Session.get('order' + p);
-          return 'Black/task' + order[task_num] + 'Bleft.gif';
+          return 'Black/task' + order[task_num - 1] + 'Bleft.gif';
         }
       },
       task_black_file_right: function() {
@@ -111,7 +111,7 @@
         } else {
           p = Session.get('part1') ? 1 : 2;
           order = Session.get('order' + p);
-          return 'Black/task' + order[task_num] + 'Bright.gif';
+          return 'Black/task' + order[task_num - 1] + 'Bright.gif';
         }
       },
       task_white_file_left: function() {
@@ -122,7 +122,7 @@
         } else {
           p = Session.get('part1') ? 1 : 2;
           order = Session.get('order' + p);
-          return 'White/task' + order[task_num] + 'Wleft.gif';
+          return 'White/task' + order[task_num - 1] + 'Wleft.gif';
         }
       },
       task_white_file_right: function() {
@@ -133,7 +133,7 @@
         } else {
           p = Session.get('part1') ? 1 : 2;
           order = Session.get('order' + p);
-          return 'White/task' + order[task_num] + 'Wright.gif';
+          return 'White/task' + order[task_num - 1] + 'Wright.gif';
         }
       },
       black_waiting: function() {
@@ -151,9 +151,11 @@
         return 'Survey Question #' + q_num + " out of " + NUM_OF_QUESTIONS;
       },
       question: function() {
-        var q_num;
+        var order, q_num;
         q_num = Session.get('q_num');
-        return questions[q_num - 1];
+        order = Session.get('order3');
+        q_num = order[q_num - 1];
+        return questions[q_num];
       }
     });
     wait_for_black_gif = function() {
@@ -170,10 +172,12 @@
       }), 1000 * WHITE_GIF_LENGTH);
     };
     register_choice = function(choice) {
-      var q_num, survey;
+      var order, q, q_num, survey;
       q_num = Session.get('q_num');
+      order = Session.get('order3');
+      q = order[q_num - 1];
       survey = Session.get('survey_part3');
-      survey.push(choice);
+      survey[q] = choice;
       Session.set('survey_part3', survey);
       q_num += 1;
       Session.set('q_num', q_num);
@@ -214,6 +218,7 @@
         Session.set('survey_part1', []);
         Session.set('order1', randperm(NUM_OF_TASKS));
         Session.set('order2', randperm(NUM_OF_TASKS));
+        Session.set('order3', randperm(NUM_OF_QUESTIONS));
         wait_for_black_gif();
       },
       'click .walking1': function() {
@@ -222,7 +227,7 @@
         if (task_num !== 0) {
           survey = Session.get('survey_part1');
           order = Session.get('order1');
-          survey[order[task_num] - 1] = 'walking';
+          survey[order[task_num - 1]] = 'walking';
           Session.set('survey_part1', survey);
         }
         task_num += 1;
@@ -240,7 +245,7 @@
         if (task_num !== 0) {
           survey = Session.get('survey_part1');
           order = Session.get('order1');
-          survey[order[task_num] - 1] = 'running';
+          survey[order[task_num - 1]] = 'running';
           Session.set('survey_part1', survey);
         }
         task_num += 1;
@@ -265,7 +270,7 @@
         if (task_num !== 0) {
           survey = Session.get('survey_part2');
           order = Session.get('order2');
-          survey[order[task_num] - 1] = 'walking';
+          survey[order[task_num - 1]] = 'walking';
           Session.set('survey_part2', survey);
         }
         task_num += 1;
@@ -283,7 +288,7 @@
         if (task_num !== 0) {
           survey = Session.get('survey_part2');
           order = Session.get('order2');
-          survey[order[task_num] - 1] = 'running';
+          survey[order[task_num - 1]] = 'running';
           Session.set('survey_part2', survey);
         }
         task_num += 1;
