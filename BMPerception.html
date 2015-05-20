@@ -72,6 +72,12 @@
 					<img src="{{task_black_file_right}}" onerror="this.style.display='none'">
 				</div>
 			{{/if}}
+			{{#if black_question}}
+				<div class="centered">
+					<h4>Was the black figure going left or right?</h4>
+					<button class="going_left1">Left</button> &nbsp; <button class="going_right1">Right</button>
+				</div>
+			{{/if}}
 			{{#if white_waiting}}
 				<div class="left-centered">
 					<img src="{{task_white_file_left}}" onerror="this.style.display='none'">
@@ -83,12 +89,12 @@
 					<img src="{{task_white_file_right}}" onerror="this.style.display='none'">
 				</div>
 			{{/if}}
-			{{#unless waiting}}
+			{{#if white_question}}
 				<div class="centered">
 					<h4>Was the white figure walking or running?</h4>
 					<button class="walking1">Walking</button> &nbsp; <button class="running1">Running</button>
 				</div>
-			{{/unless}}
+			{{/if}}
 		{{/if}}
 		{{#if part1_5}}
 			<h2>Instructions for part 2</h2>
@@ -129,6 +135,12 @@
 					<img src="{{task_black_file_right}}" onerror="this.style.display='none'">
 				</div>
 			{{/if}}
+			{{#if black_question}}
+				<div class="centered">
+					<h4>Was the black figure going left or right?</h4>
+					<button class="going_left2">Left</button> &nbsp; <button class="going_right2">Right</button>
+				</div>
+			{{/if}}
 			{{#if white_waiting}}
 				<div class="left-centered">
 					<img src="{{task_white_file_left}}" onerror="this.style.display='none'">
@@ -140,12 +152,12 @@
 					<img src="{{task_white_file_right}}" onerror="this.style.display='none'">
 				</div>
 			{{/if}}
-			{{#unless waiting}}
+			{{#if white_question}}
 				<div class="centered">
 					<h4>Was the white figure walking or running?</h4>
 					<button class="walking2">Walking</button> &nbsp; <button class="running2">Running</button>
 				</div>
-			{{/unless}}
+			{{/if}}
 		{{/if}}
 		{{#if part2_5}}
 			<h2>Instructions for part 3</h2>
