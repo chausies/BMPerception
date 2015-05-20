@@ -153,10 +153,10 @@
         return Session.get('white_waiting');
       },
       black_question: function() {
-        return Session.get('black_waiting');
+        return Session.get('black_question');
       },
       white_question: function() {
-        return Session.get('white_waiting');
+        return Session.get('white_question');
       },
       waiting: function() {
         return Session.get('black_waiting') || Session.get('white_waiting');

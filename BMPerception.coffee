@@ -122,9 +122,9 @@ if Meteor.isClient
 		white_waiting: ->
 			Session.get 'white_waiting'
 		black_question: ->
-			Session.get 'black_waiting'
+			Session.get 'black_question'
 		white_question: ->
-			Session.get 'white_waiting'
+			Session.get 'white_question'
 		waiting: ->
 			Session.get('black_waiting') || Session.get('white_waiting')
 		# Getting Question Stuff
