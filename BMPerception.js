@@ -16,7 +16,7 @@
 
   NUM_OF_QUESTIONS = questions.length;
 
-  NUM_OF_TASKS = 3;
+  NUM_OF_TASKS = 2;
 
   BLACK_GIF_LENGTH = 1;
 
@@ -167,11 +167,11 @@
         return 'Survey Question #' + q_num + " out of " + NUM_OF_QUESTIONS;
       },
       question: function() {
-        var order, q_num;
+        var order, q, q_num;
         q_num = Session.get('q_num');
         order = Session.get('order3');
-        q_num = order[q_num - 1];
-        return questions[q_num];
+        q = order[q_num - 1] - 1;
+        return questions[q];
       }
     });
     wait_for_black_gif = function() {
@@ -192,7 +192,7 @@
       var order, q, q_num, survey;
       q_num = Session.get('q_num');
       order = Session.get('order3');
-      q = order[q_num - 1];
+      q = order[q_num - 1] - 1;
       survey = Session.get('survey_part3');
       survey[q] = choice;
       Session.set('survey_part3', survey);
@@ -244,7 +244,7 @@
         if (task_num !== 0) {
           survey = Session.get('survey_part1');
           order = Session.get('order1');
-          survey[2 * order[task_num - 1]] = LEFT;
+          survey[2 * (order[task_num - 1] - 1)] = LEFT;
           Session.set('survey_part1', survey);
         }
         Session.set('black_question', false);
@@ -256,7 +256,7 @@
         if (task_num !== 0) {
           survey = Session.get('survey_part1');
           order = Session.get('order1');
-          survey[2 * order[task_num - 1]] = RIGHT;
+          survey[2 * (order[task_num - 1] - 1)] = RIGHT;
           Session.set('survey_part1', survey);
         }
         Session.set('black_question', false);
@@ -268,7 +268,7 @@
         if (task_num !== 0) {
           survey = Session.get('survey_part1');
           order = Session.get('order1');
-          survey[2 * order[task_num - 1] + 1] = WALK;
+          survey[2 * order[task_num - 1] - 1] = WALK;
           Session.set('survey_part1', survey);
         }
         task_num += 1;
@@ -287,7 +287,7 @@
         if (task_num !== 0) {
           survey = Session.get('survey_part1');
           order = Session.get('order1');
-          survey[2 * order[task_num - 1] + 1] = RUN;
+          survey[2 * order[task_num - 1] - 1] = RUN;
           Session.set('survey_part1', survey);
         }
         task_num += 1;
@@ -313,7 +313,7 @@
         if (task_num !== 0) {
           survey = Session.get('survey_part2');
           order = Session.get('order2');
-          survey[2 * order[task_num - 1]] = LEFT;
+          survey[2 * (order[task_num - 1] - 1)] = LEFT;
           Session.set('survey_part2', survey);
         }
         Session.set('black_question', false);
@@ -325,7 +325,7 @@
         if (task_num !== 0) {
           survey = Session.get('survey_part2');
           order = Session.get('order2');
-          survey[2 * order[task_num - 1]] = RIGHT;
+          survey[2 * (order[task_num - 1] - 1)] = RIGHT;
           Session.set('survey_part2', survey);
         }
         Session.set('black_question', false);
@@ -337,7 +337,7 @@
         if (task_num !== 0) {
           survey = Session.get('survey_part2');
           order = Session.get('order2');
-          survey[2 * order[task_num - 1] + 1] = WALK;
+          survey[2 * order[task_num - 1] - 1] = WALK;
           Session.set('survey_part2', survey);
         }
         task_num += 1;
@@ -356,7 +356,7 @@
         if (task_num !== 0) {
           survey = Session.get('survey_part2');
           order = Session.get('order2');
-          survey[2 * order[task_num - 1] + 1] = RUN;
+          survey[2 * order[task_num - 1] - 1] = RUN;
           Session.set('survey_part2', survey);
         }
         task_num += 1;
