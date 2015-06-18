@@ -59,7 +59,30 @@ NUM_OF_QUESTIONS = questions.length
 NUM_OF_TASKS = 4
 BLACK_GIF_LENGTH = 2
 WHITE_GIF_LENGTH = 1
+STRONG_AGREE_Q    = [ 2, 4, 5, 6, 7, 9, 12, 13, 16, 18, 19, 20,
+									21, 22, 23, 26, 33, 35, 39, 41, 42, 43, 45, 46 ]
+AGREE_Q           = [ 2, 4, 5, 6, 7, 9, 12, 13, 16, 18, 19, 20,
+									21, 22, 23, 26, 33, 35, 39, 41, 42, 43, 45, 46 ]
+STRONG_DISAGREE_Q = [ 1, 3, 8, 10, 11, 14, 15, 17, 24, 25, 27, 28,
+									29, 30, 31, 32, 34, 36,37, 38, 40, 44, 47, 48, 49, 50 ]
+DISAGREE_Q        = [ 1, 3, 8, 10, 11, 14, 15, 17, 24, 25, 27, 28,
+									29, 30, 31, 32, 34, 36,37, 38, 40, 44, 47, 48, 49, 50 ]
+
 Surveys = new (Mongo.Collection)('surveys')
+
+get_score = (arr) ->
+	score = 0
+	for q in [1..NUM_OF_QUESTIONS]
+		switch arr[q-1]
+			when 1
+				if q in STRONG_AGREE_Q then score += 1
+			when 2
+				if q in AGREE_Q then score += 1
+			when 3
+				if q in DISAGREE_Q then score += 1
+			when 4
+				if q in STRONG_DISAGREE_Q then score += 1
+	return score
 
 randperm = (n, k=n) ->
 	a = [1..n]
@@ -81,8 +104,9 @@ if Meteor.isClient
 				features.push 'Part 1: White Task #' + task
 			for task in [1..NUM_OF_TASKS]
 				features.push 'Part 2: White Task #' + task
-			for question in [1..NUM_OF_QUESTIONS]
-				features.push 'Part 3: QUESTION #' + question
+			features.push "Part 3: AQ Score"
+			# for question in [1..NUM_OF_QUESTIONS]
+			# 	features.push 'Part 3: QUESTION #' + question
 			csv = features.join(", ") + "\n"
 			Surveys.find().forEach (survey) ->
 				csv += [
@@ -90,7 +114,8 @@ if Meteor.isClient
 					survey.createdAt,
 					survey.part1.join(','),
 					survey.part2.join(','),
-					survey.part3.join(',')
+					get_score(survey.part3)
+					# survey.part3.join(',')
 				].join ','
 				csv += "\n"
 				return
@@ -215,11 +240,12 @@ if Meteor.isClient
 			Session.set 'part3.5', true
 		return
 	save_survey = ->
+		age = Session.get 'age'
 		part1 = Session.get 'survey_part1'
 		part2 = Session.get 'survey_part2'
 		part3 = Session.get 'survey_part3'
 		Surveys.insert
-			age: 21
+			age: age
 			createdAt: new Date
 			part1: part1
 			part2: part2
@@ -237,15 +263,28 @@ if Meteor.isClient
 			event.target.text.value = ''
 			# Prevent default form submit
 			false
-		'click .go-to-part1': ->
-			Session.set 'part1', true
-			Session.set 'task_num', 0
-			Session.set 'survey_part1', []
-			Session.set 'order1', randperm(NUM_OF_TASKS)
-			Session.set 'order2', randperm(NUM_OF_TASKS)
-			Session.set 'order3', randperm(NUM_OF_QUESTIONS)
-			wait_for_black_gif()
-			return
+		'submit .go-to-part1': (event) ->
+			event.preventDefault()
+			error = false
+			age = parseInt(event.target.age.value)
+			unless event.target.consent.checked
+				alert "You must consent to take the survey"
+				error = true
+			else if isNaN(age) or age<0 or age>110
+				alert "Please enter a valid age"
+				error = true
+			if error
+				return
+			else
+				Session.set 'age', age
+				Session.set 'part1', true
+				Session.set 'task_num', 0
+				Session.set 'survey_part1', []
+				Session.set 'order1', randperm(NUM_OF_TASKS)
+				Session.set 'order2', randperm(NUM_OF_TASKS)
+				Session.set 'order3', randperm(NUM_OF_QUESTIONS)
+				wait_for_black_gif()
+				return
 		'click .going_left1': ->
 			task_num = Session.get 'task_num'
 			if task_num != 0

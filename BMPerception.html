@@ -42,14 +42,18 @@
 				straight to doing the 96 tasks of part 1.
 			</p>
 
-			<button class="go-to-part1">Ready</button>
+			<form class="go-to-part1">
+				<div>Age: <input type="number" name="age"></div>
+				<div>Do you consent to take the survey? <input type="checkbox" name="consent"></div>
+				<div><input type="submit" value="Ready"></div>
+			</form>
 
 
 			<!-- Get Data -->
 			<div id="footer">
 				<form class="get-data">
 					Data Code
-					<input type="text" name="text" />
+					<input type="text" name="text">
 				</form>
 			</div>
 		{{/if}}
