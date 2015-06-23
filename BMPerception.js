@@ -21,7 +21,7 @@
 
   NUM_OF_QUESTIONS = questions.length;
 
-  NUM_OF_TASKS = 96;
+  NUM_OF_TASKS = 6;
 
   BLACK_GIF_LENGTH = 2;
 
