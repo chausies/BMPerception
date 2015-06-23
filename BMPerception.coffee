@@ -55,8 +55,10 @@ LEFT = 0
 RIGHT = 1
 WALK = 0
 RUN = 1
+FEMALE = 0
+MALE = 1
 NUM_OF_QUESTIONS = questions.length
-NUM_OF_TASKS = 4
+NUM_OF_TASKS = 96
 BLACK_GIF_LENGTH = 2
 WHITE_GIF_LENGTH = 1
 STRONG_AGREE_Q    = [ 2, 4, 5, 6, 7, 9, 12, 13, 16, 18, 19, 20,
@@ -71,8 +73,9 @@ DISAGREE_Q        = [ 1, 3, 8, 10, 11, 14, 15, 17, 24, 25, 27, 28,
 Surveys = new (Mongo.Collection)('surveys')
 
 get_score = (arr) ->
+	n = arr.length
 	score = 0
-	for q in [1..NUM_OF_QUESTIONS]
+	for q in [1..n]
 		switch arr[q-1]
 			when 1
 				if q in STRONG_AGREE_Q then score += 1
@@ -98,7 +101,7 @@ if Meteor.isClient
 		get_data: ->
 			Session.get('get_data')
 		survey_data: ->
-			features = ["Age, Survey Finish Time"]
+			features = ["Age, Gendre, Survey Finish Time"]
 			for task in [1..NUM_OF_TASKS]
 				features.push 'Part 1: Black Task #' + task
 				features.push 'Part 1: White Task #' + task
@@ -111,6 +114,7 @@ if Meteor.isClient
 			Surveys.find().forEach (survey) ->
 				csv += [
 					survey.age,
+					survey.gendre,
 					survey.createdAt,
 					survey.part1.join(','),
 					survey.part2.join(','),
@@ -241,11 +245,13 @@ if Meteor.isClient
 		return
 	save_survey = ->
 		age = Session.get 'age'
+		gendre = Session.get 'gendre'
 		part1 = Session.get 'survey_part1'
 		part2 = Session.get 'survey_part2'
 		part3 = Session.get 'survey_part3'
 		Surveys.insert
 			age: age
+			gendre: gendre
 			createdAt: new Date
 			part1: part1
 			part2: part2
@@ -267,6 +273,7 @@ if Meteor.isClient
 			event.preventDefault()
 			error = false
 			age = parseInt(event.target.age.value)
+			gendre = if event.target.gendre.checked then MALE else FEMALE
 			unless event.target.consent.checked
 				alert "You must consent to take the survey"
 				error = true
@@ -277,6 +284,7 @@ if Meteor.isClient
 				return
 			else
 				Session.set 'age', age
+				Session.set 'gendre', gendre
 				Session.set 'part1', true
 				Session.set 'task_num', 0
 				Session.set 'survey_part1', []
