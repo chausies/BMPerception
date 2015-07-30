@@ -53,6 +53,7 @@ questions = [
 ]
 LEFT = 0
 RIGHT = 1
+NONE = 'x'
 WALK = 0
 RUN = 1
 FEMALE = 0
@@ -97,6 +98,14 @@ randperm = (n, k=n) ->
 	return a[..(k-1)]
 
 if Meteor.isClient
+	# Listen to keypresses for black questions
+	$(document).keydown (e) ->
+		if Session.get('part1') and Session.get('black_waiting')
+			if e.keyCode == 37
+				Session.set 'black_answer', LEFT
+			else if e.keyCode == 39
+				Session.set 'black_answer', RIGHT
+		return
 	Template.body.helpers
 		get_data: ->
 			Session.get('get_data')
@@ -192,8 +201,6 @@ if Meteor.isClient
 			Session.get 'black_waiting'
 		white_waiting: ->
 			Session.get 'white_waiting'
-		black_question: ->
-			Session.get 'black_question'
 		white_question: ->
 			Session.get 'white_question'
 		waiting: ->
@@ -215,9 +222,15 @@ if Meteor.isClient
 		setTimeout (->
 			Session.set 'black_waiting', false
 			if black_question
-				Session.set 'black_question', true
-			else
-				wait_for_white_gif()
+				answer = Session.get 'black_answer'
+				Session.set 'black_answer', NONE
+				task_num = Session.get 'task_num'
+				if task_num != 0
+					survey = Session.get 'survey_part1'
+					order = Session.get 'order1'
+					survey[2*(order[task_num-1]-1)] = answer
+					Session.set 'survey_part1', survey
+			wait_for_white_gif()
 			return
 		), 1000*BLACK_GIF_LENGTH
 		return
@@ -293,26 +306,6 @@ if Meteor.isClient
 				Session.set 'order3', randperm(NUM_OF_QUESTIONS)
 				wait_for_black_gif()
 				return
-		'click .going_left1': ->
-			task_num = Session.get 'task_num'
-			if task_num != 0
-				survey = Session.get 'survey_part1'
-				order = Session.get 'order1'
-				survey[2*(order[task_num-1]-1)] = LEFT
-				Session.set 'survey_part1', survey
-			Session.set 'black_question', false
-			wait_for_white_gif()
-			return
-		'click .going_right1': ->
-			task_num = Session.get 'task_num'
-			if task_num != 0
-				survey = Session.get 'survey_part1'
-				order = Session.get 'order1'
-				survey[2*(order[task_num-1]-1)] = RIGHT
-				Session.set 'survey_part1', survey
-			Session.set 'black_question', false
-			wait_for_white_gif()
-			return
 		'click .walking1': ->
 			task_num = Session.get 'task_num'
 			if task_num != 0

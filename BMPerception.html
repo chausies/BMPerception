@@ -24,11 +24,14 @@
 
 			<p>
 				For each task, you will first see a <b>black figure</b> walking
-				left or right for a few seconds. Please choose whether you think it
-				was moving left or right. Immediately after, you will briefly see a
+				left or right for a few seconds. As quickly as possible, press
+				either the ← or → arrow key to choose which way you think it's
+				going. Do this while the black figure is still on screen. In case
+				you mess up, the last direction you press will be the answer we
+				record. Right after the black figure, you will briefly see a
 				<b>white figure</b> either walking or running. After this, please
-				choose whether you think it was walking or running. You will do 96
-				tasks like this.
+				choose whether you think it was walking or running by pressing the
+				corresponding option. You will do 96 tasks like this.
 			</p>
 			<p>
 				Lastly, throughout each task, there will be a <b>red dot</b> in the
@@ -69,7 +72,7 @@
 			<h3>{{task_name}}</h3>
 
 			<p class="reminder">
-				Choose left or right for the black figure, choose walker or runner
+				Press ← or → for the black figure, choose walker or runner
 				for the white figure. <br>
 				<b>Keep your eyes on the red dot at all times.</b>
 			</p>
@@ -83,12 +86,6 @@
 				</div>
 				<div class="right-centered">
 					<img src="{{task_black_file_right}}" onerror="this.style.display='none'">
-				</div>
-			{{/if}}
-			{{#if black_question}}
-				<div class="centered">
-					<h4>Was the black figure going left or right?</h4>
-					<button class="going_left1">Left</button> &nbsp; <button class="going_right1">Right</button>
 				</div>
 			{{/if}}
 			{{#if white_waiting}}
@@ -113,10 +110,10 @@
 			<h2>Instructions for part 2</h2>
 
 			<p>
-			Part 2 is like Part 1, except now, you aren't questioned about the
-			black figure. <b>Ignore</b> the black figure, and <b>only</b> focus
-			on the white figure. Again, make sure to <b>always</b> keep your eyes
-			focused on the red dot in the center <b>at all times</b>.
+				Part 2 is like Part 1, except now, you don't do anything for the
+				black figure. <b>Ignore</b> the black figure, and <b>only</b> focus
+				on the white figure. Again, make sure to <b>always</b> keep your eyes
+				focused on the red dot in the center <b>at all times</b>.
 			</p>
 			<p></p>
 			<p>
