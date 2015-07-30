@@ -59,7 +59,7 @@ RUN = 1
 FEMALE = 0
 MALE = 1
 NUM_OF_QUESTIONS = questions.length
-NUM_OF_TASKS = 6
+NUM_OF_TASKS = 3
 BLACK_GIF_LENGTH = 2
 WHITE_GIF_LENGTH = 1
 STRONG_AGREE_Q    = [ 2, 4, 5, 6, 7, 9, 12, 13, 16, 18, 19, 20,
@@ -299,6 +299,7 @@ if Meteor.isClient
 				Session.set 'age', age
 				Session.set 'gendre', gendre
 				Session.set 'part1', true
+				Session.set 'black_answer', NONE
 				Session.set 'task_num', 0
 				Session.set 'survey_part1', []
 				Session.set 'order1', randperm(NUM_OF_TASKS)
