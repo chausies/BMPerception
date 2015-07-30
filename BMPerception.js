@@ -23,7 +23,7 @@
 
   NUM_OF_QUESTIONS = questions.length;
 
-  NUM_OF_TASKS = 3;
+  NUM_OF_TASKS = 5;
 
   BLACK_GIF_LENGTH = 2;
 
